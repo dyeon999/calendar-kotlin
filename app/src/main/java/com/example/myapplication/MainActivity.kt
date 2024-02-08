@@ -87,15 +87,16 @@ class MainActivity : AppCompatActivity() {
         binding.calendarView.setup(startMonth, endMonth, firstDayOfWeek)
         binding.calendarView.scrollToMonth(currentMonth)
 
-        val daysOfWeek = daysOfWeek()
+        val daysOfWeek = daysOfWeek() // 요일 리스트
 
+        // 요일 인것으로 추정
         val titlesContainer = findViewById<ViewGroup>(R.id.titlesContainer)
         titlesContainer.children
             .map {it as TextView}
             .forEachIndexed {index, textView ->
-                val dayOfWeek = daysOfWeek[index]
-                val title = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
-                textView.text = title
+                val dayOfWeek = daysOfWeek[index] // 요일 리스트에서 index에 해당하는 값을 dayOfWeek 변수에 저장한다.
+                val title = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH) // title에 요일을 저장한다. 짧게. 영어로
+                textView.text = title // 텍뷰의 텍스트를 title로 설정
             }
 
         binding.calendarView.monthHeaderBinder = object : MonthHeaderFooterBinder<MonthViewContainer> {
@@ -171,6 +172,7 @@ class MainActivity : AppCompatActivity() {
                         (date.isAfter(selectedStartDate) && date.isBefore(selectedEndDate))
     }
 
+    // 선택되었을 때
     inner class DayViewContainer(view: View): ViewContainer(view) {
         val textView = CalendarDayLayoutBinding.bind(view).calendarDayText
         var isSelected : Boolean = false
