@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private var selectedEndDate: LocalDate? = null
     private var rangeRe : Boolean = false
     var pageMonth = YearMonth.now()
+    var today = LocalDate.now()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +51,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.calendarView.dayBinder = object : MonthDayBinder<DayViewContainer> {
             override fun bind(container: DayViewContainer, data: CalendarDay) {
+
                 container.textView.text = data.date.dayOfMonth.toString()
+                Log.d("data.date.dayOfMonth", data.date.dayOfMonth.toString())
                 if (rangeRe) {
                     Log.d("true", "true")
                     container.textView.background = null
@@ -72,10 +75,16 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 if (data.position == DayPosition.MonthDate) {
-                    container.textView.setTextColor(Color.BLACK)
+                    container.textView.setTextColor(Color.WHITE)
                 } else {
                     container.textView.setTextColor(Color.GRAY)
                     container.canClick = false
+                    container.view.visibility = View.INVISIBLE
+                }
+
+                if (data.date == today){
+                    container.textView.setBackgroundResource(R.drawable.style_date_today)
+                    container.textView.setTextColor(Color.BLACK)
                 }
             }
 
@@ -95,7 +104,7 @@ class MainActivity : AppCompatActivity() {
             .map {it as TextView}
             .forEachIndexed {index, textView ->
                 val dayOfWeek = daysOfWeek[index] // 요일 리스트에서 index에 해당하는 값을 dayOfWeek 변수에 저장한다.
-                val title = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH) // title에 요일을 저장한다. 짧게. 영어로
+                val title = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN) // title에 요일을 저장한다. 짧게. 영어로
                 textView.text = title // 텍뷰의 텍스트를 title로 설정
             }
 
@@ -127,7 +136,7 @@ class MainActivity : AppCompatActivity() {
             val pageMonth = calendarMonth.yearMonth
             val year = pageMonth.year.toString()
             val month = pageMonth.month.value
-            binding.date.text = year +"." + month + "월"
+            binding.date.text = year +"년 " + month + "월"
         }
         binding.right.setOnClickListener {
             val nextMonth = pageMonth.nextMonth
@@ -145,6 +154,7 @@ class MainActivity : AppCompatActivity() {
             binding.calendarView.smoothScrollToMonth(currentMonth)
             pageMonth = currentMonth
         }
+
     }
 
     private fun onDaySelected(date: LocalDate) {
