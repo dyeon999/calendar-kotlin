@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     private var rangeRe : Boolean = false
     var pageMonth = YearMonth.now()
     var today = LocalDate.now()
+    lateinit var date: LocalDate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.calendarView.dayBinder = object : MonthDayBinder<DayViewContainer> {
             override fun bind(container: DayViewContainer, data: CalendarDay) {
-
+                //date = data.date
                 container.textView.text = data.date.dayOfMonth.toString()
                 Log.d("data.date.dayOfMonth", data.date.dayOfMonth.toString())
                 if (rangeRe) {
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 else{
-                    if (isDateInRange(data.date)) {
+                    if (otherDate(data.date)) {
                         container.textView.setBackgroundResource(R.drawable.calender_box_2)
                     } else if (data.date == selectedStartDate) {
                         // 다른 날짜에 대한 배경 재설정
@@ -177,9 +178,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun isDateInRange(date: LocalDate): Boolean {
+    private fun otherDate(date: LocalDate): Boolean {
         return selectedStartDate != null && selectedEndDate != null &&
                         (date.isAfter(selectedStartDate) && date.isBefore(selectedEndDate))
+    }
+    private fun isDateInRange(date: LocalDate): Boolean{
+        Log.d("selected date", date.toString())
+        Log.d("selected date > today", (date >= today).toString())
+        return date >= today
     }
 
     // 선택되었을 때
@@ -189,21 +195,49 @@ class MainActivity : AppCompatActivity() {
         private var selectedDate: LocalDate? = null
         var canClick : Boolean = true
         init {
-            view.setOnClickListener {
-                if (canClick) {
-                    if (!isSelected) {
-                        view.setBackgroundResource(R.drawable.onclick)
-                        isSelected = true
-                        val text = textView.text.toString()
-                        val day = text.toInt()
-                        selectedDate = pageMonth.atDay(day)
-                        Log.d("selected", selectedDate.toString())
-                        onDaySelected(selectedDate!!)
-                    } else {
+            Log.d("DayViewContainer", "init")
+            view.setOnClickListener{
+                Log.d("DayViewContainer", isSelected.toString())
+                val text = textView.text.toString()
+                val day = text.toInt()
+                selectedDate = pageMonth.atDay(day)
+                if(canClick){
+                    if (!isSelected){
+                        if (isDateInRange(selectedDate!!)){
+                            this.textView.setBackgroundResource(R.drawable.style_date_today)
+                            this.textView.setTextColor(Color.BLACK)
+                        }
+                        else{
+                            this.textView.setBackgroundResource(R.drawable.style_date_selected)
+                            this.textView.setTextColor(Color.BLACK)
+                        }
+                        //onDaySelected(selectedDate!!)
+                        isSelected = !isSelected
+                    }
+                    else{
                         isSelected = false
+                        this.textView.setBackgroundResource(R.drawable.style_date_background)
+                        this.textView.setTextColor(Color.WHITE)
                     }
                 }
             }
         }
+//        init {
+//            view.setOnClickListener {
+//                if (canClick) {
+//                    if (!isSelected) {
+//                        view.setBackgroundResource(R.drawable.onclick)
+//                        isSelected = true
+//                        val text = textView.text.toString()
+//                        val day = text.toInt()
+//                        selectedDate = pageMonth.atDay(day)
+//                        Log.d("selected", selectedDate.toString())
+//                        onDaySelected(selectedDate!!)
+//                    } else {
+//                        isSelected = false
+//                    }
+//                }
+//            }
+//        }
     }
 }

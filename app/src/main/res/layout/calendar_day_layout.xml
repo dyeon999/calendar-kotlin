@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/calendar_day_ic"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
         android:layout_marginBottom="6dp"
         android:src="@drawable/ic_state_default"/>
 
