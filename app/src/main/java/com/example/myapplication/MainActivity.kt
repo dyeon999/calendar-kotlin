@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun onDaySelected(date: LocalDate) {
+    private fun onDaySelected(date: LocalDate) { // 이걸 어떻게 하나
         rangeRe=false
         if (selectedStartDate == null) {
             // 시작 날짜를 선택한 경우
@@ -178,13 +178,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun otherDate(date: LocalDate): Boolean {
+    private fun otherDate(date: LocalDate): Boolean { // 지금 선택한 날짜 말고 다른 날짜들..?
         return selectedStartDate != null && selectedEndDate != null &&
                         (date.isAfter(selectedStartDate) && date.isBefore(selectedEndDate))
     }
-    private fun isDateInRange(date: LocalDate): Boolean{
+    private fun isDateInRange(date: LocalDate): Boolean{ // 선택한 날짜가 현재 날짜 이후일 때
         Log.d("selected date", date.toString())
-        Log.d("selected date > today", (date >= today).toString())
+        Log.d("selected date >= today", (date >= today).toString())
         return date >= today
     }
 
