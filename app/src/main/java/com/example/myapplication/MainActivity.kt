@@ -159,6 +159,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onDaySelected(date: LocalDate) { // 이걸 어떻게 하나
+        // 선택된 날짜 이외의 날을 컨트롤하는 함수
         rangeRe=false
         if (selectedStartDate == null) {
             // 시작 날짜를 선택한 경우
