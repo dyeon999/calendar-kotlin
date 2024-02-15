@@ -4,48 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="#0C0C0F">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="30dp">
 
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18dp"
-            android:text="2024.1월"
+            android:text="2024년 1월"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:textColor="@color/black"/>
+            android:textColor="@color/white"/>
 
-        <com.google.android.material.card.MaterialCardView
+        <TextView
             android:id="@+id/today"
-            android:layout_width="40dp"
-            android:layout_height="13dp"
-            app:layout_constraintStart_toEndOf="@id/date"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="10dp"
-            app:cardCornerRadius="10dp"
-            app:strokeWidth="0.8dp"
-            app:strokeColor="@color/black">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="today"
-                android:textSize="9sp"
-                android:textColor="@color/black"
-                android:layout_gravity="center"
-                android:textStyle="bold"/>
-        </com.google.android.material.card.MaterialCardView>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today"
+            android:textSize="16sp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="4dp"
+            android:textColor="@color/white"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/style_corner_20"
+            android:layout_gravity="center"
+            app:layout_constraintEnd_toStartOf="@id/left"
+            app:layout_constraintTop_toTopOf="@id/date"
+            app:layout_constraintBottom_toBottomOf="@+id/date"/>
 
         <ImageView
             android:id="@+id/left"
@@ -76,6 +70,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cv_dayViewResource="@layout/calendar_day_layout"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="8dp"
         app:cv_daySize="rectangle"/>
 </LinearLayout>
