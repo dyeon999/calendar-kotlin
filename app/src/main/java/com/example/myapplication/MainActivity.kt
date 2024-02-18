@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 container.textView.text = data.date.dayOfMonth.toString()
                 Log.d("data.date.dayOfMonth", data.date.dayOfMonth.toString())
                 if (rangeRe) {
-                    Log.d("true", "true")
+                    Log.d("bind", "rangeRe true")
                     container.textView.background = null
                     if (data.date == selectedStartDate) { //선택한 날짜와 현재 날짜가 같고, 끝라인 리아면
                         container.textView.setBackgroundResource(R.drawable.onclick)
@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 else{
                     if (otherDate(data.date)) {
+                        Log.d("bind else", "otherDate() true")
                         container.textView.setBackgroundResource(R.drawable.calender_box_2)
                     } else if (data.date == selectedStartDate) {
                         // 다른 날짜에 대한 배경 재설정
@@ -159,7 +160,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onDaySelected(date: LocalDate) { // 이걸 어떻게 하나
-        // 선택된 날짜 이외의 날을 컨트롤하는 함수
+        // 선택된 날짜 이외의 날을 컨트롤하는 함
         rangeRe=false
         if (selectedStartDate == null) {
             // 시작 날짜를 선택한 경우
@@ -180,8 +181,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun otherDate(date: LocalDate): Boolean { // 지금 선택한 날짜 말고 다른 날짜들..?
-        return selectedStartDate != null && selectedEndDate != null &&
-                        (date.isAfter(selectedStartDate) && date.isBefore(selectedEndDate))
+        return selectedStartDate != null &&
+                        (date.isAfter(selectedStartDate) && date.isBefore(selectedStartDate))
     }
     private fun isDateInRange(date: LocalDate): Boolean{ // 선택한 날짜가 현재 날짜 이후일 때
         Log.d("selected date", date.toString())
@@ -198,7 +199,7 @@ class MainActivity : AppCompatActivity() {
         init {
             Log.d("DayViewContainer", "init")
             view.setOnClickListener{
-                Log.d("DayViewContainer", isSelected.toString())
+                Log.d("DayViewContainer isSelected", isSelected.toString())
                 val text = textView.text.toString()
                 val day = text.toInt()
                 selectedDate = pageMonth.atDay(day)
