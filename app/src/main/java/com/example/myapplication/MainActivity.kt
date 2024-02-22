@@ -114,7 +114,6 @@ class MainActivity : AppCompatActivity() {
 
         val daysOfWeek = daysOfWeek() // 요일 리스트
 
-
         // 요일 인것으로 추정
         val titlesContainer = findViewById<ViewGroup>(R.id.titlesContainer)
         titlesContainer.children
@@ -224,6 +223,7 @@ class MainActivity : AppCompatActivity() {
 //                        this.textView.setBackgroundResource(R.drawable.style_date_background)
 //                        this.textView.setTextColor(Color.WHITE)
 //                    }
+                    // weekly
                     if (isDateInRange(selectedDate!!)){
                         Log.d("selected date vs today", ">")
                         this.textView.setBackgroundResource(R.drawable.style_date_today)
