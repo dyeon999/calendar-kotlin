@@ -34,7 +34,6 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private var selectedStartDate: LocalDate? = null
-    private var selectedEndDate: LocalDate? = null
     private var rangeRe : Boolean = false
     var pageMonth = YearMonth.now()
     var today = LocalDate.now()
@@ -55,22 +54,37 @@ class MainActivity : AppCompatActivity() {
                 //date = data.date
                 container.textView.text = data.date.dayOfMonth.toString()
                 Log.d("data.date.dayOfMonth", data.date.dayOfMonth.toString())
+                Log.d("selected rangeRe", rangeRe.toString())
                 if (rangeRe) {
-                    Log.d("true", "true")
-                    container.textView.background = null
+                    Log.d("bind", "rangeRe true")
+                    container.textView.setBackgroundResource(R.drawable.style_date_background)
+                    Log.d(data.date.toString(), "selected " + selectedStartDate.toString())
                     if (data.date == selectedStartDate) { //선택한 날짜와 현재 날짜가 같고, 끝라인 리아면
-                        container.textView.setBackgroundResource(R.drawable.onclick)
+                        if (isDateInRange(data.date)){
+                            Log.d("largerDate Selected", "after today")
+                            container.textView.setBackgroundResource(R.drawable.style_date_today)
+                        }else{
+                            Log.d("smallerDate Selected", "before today")
+                            container.textView.setBackgroundResource(R.drawable.style_date_selected)
+                        }
+
                     }
+//                    if (isDateInRange(data.date)){
+//                        Log.d("largerDate Selected", "after today")
+//                        container.textView.setBackgroundResource(R.drawable.style_date_today)
+//                    }else{
+//                        Log.d("smallerDate Selected", "before today")
+//                        container.textView.setBackgroundResource(R.drawable.style_date_selected)
+//                    }
                 }
                 else{
                     if (otherDate(data.date)) {
-                        container.textView.setBackgroundResource(R.drawable.calender_box_2)
-                    } else if (data.date == selectedStartDate) {
-                        // 다른 날짜에 대한 배경 재설정
+                        Log.d("bind else", "otherDate() true")
                         container.textView.setBackgroundResource(R.drawable.calender_box_1)
-                    } else if (data.date == selectedEndDate) {
+                    } else if (data.date == selectedStartDate) {
+                        Log.d("bind else", "selectedStartDate")
                         // 다른 날짜에 대한 배경 재설정
-                        container.textView.setBackgroundResource(R.drawable.calender_box_3)
+                        container.textView.setBackgroundResource(R.drawable.calender_box_2)
                     } else {
                         container.textView.background = null
                     }
@@ -86,6 +100,7 @@ class MainActivity : AppCompatActivity() {
                 if (data.date == today){
                     container.textView.setBackgroundResource(R.drawable.style_date_today)
                     container.textView.setTextColor(Color.BLACK)
+                    selectedStartDate = today
                 }
             }
 
@@ -159,33 +174,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onDaySelected(date: LocalDate) { // 이걸 어떻게 하나
-        // 선택된 날짜 이외의 날을 컨트롤하는 함수
-        rangeRe=false
-        if (selectedStartDate == null) {
-            // 시작 날짜를 선택한 경우
-            selectedStartDate = date
-            selectedEndDate = null
-        } else if (selectedEndDate == null && date.isAfter(selectedStartDate)) {
-            // 끝 날짜를 선택한 경우
-            selectedEndDate = date
-            Log.d("month", selectedEndDate.toString())
-            binding.calendarView.notifyCalendarChanged()
-        } else {
-            // 다시 시작 날짜부터 선택한 경우
-            selectedStartDate = date
-            selectedEndDate = null
-            rangeRe=true
-            binding.calendarView.notifyCalendarChanged()
-        }
+        // 선택된 날짜 이외의 날을 컨트롤하는 함
+        selectedStartDate = date
+        rangeRe = true
+        binding.calendarView.notifyCalendarChanged()
     }
 
     private fun otherDate(date: LocalDate): Boolean { // 지금 선택한 날짜 말고 다른 날짜들..?
-        return selectedStartDate != null && selectedEndDate != null &&
-                        (date.isAfter(selectedStartDate) && date.isBefore(selectedEndDate))
+        return selectedStartDate != null &&
+                        (date.isAfter(selectedStartDate) && date.isBefore(selectedStartDate))
     }
     private fun isDateInRange(date: LocalDate): Boolean{ // 선택한 날짜가 현재 날짜 이후일 때
         Log.d("selected date", date.toString())
-        Log.d("selected date >= today", (date >= today).toString())
+        Log.d("selected date today", today.toString())
+        Log.d("selected date > today", (date>=today).toString())
         return date >= today
     }
 
@@ -197,48 +199,47 @@ class MainActivity : AppCompatActivity() {
         var canClick : Boolean = true
         init {
             Log.d("DayViewContainer", "init")
+            selectedDate = today
             view.setOnClickListener{
-                Log.d("DayViewContainer", isSelected.toString())
+                Log.d("DayViewContainer isSelected", textView.text.toString())
                 val text = textView.text.toString()
                 val day = text.toInt()
                 selectedDate = pageMonth.atDay(day)
                 if(canClick){
-                    if (!isSelected){
-                        if (isDateInRange(selectedDate!!)){
-                            this.textView.setBackgroundResource(R.drawable.style_date_today)
-                            this.textView.setTextColor(Color.BLACK)
-                        }
-                        else{
-                            this.textView.setBackgroundResource(R.drawable.style_date_selected)
-                            this.textView.setTextColor(Color.BLACK)
-                        }
-                        //onDaySelected(selectedDate!!)
-                        isSelected = !isSelected
+//                    if (!isSelected){
+//                        if (isDateInRange(selectedDate!!)){
+//                            this.textView.setBackgroundResource(R.drawable.style_date_today)
+//                            this.textView.setTextColor(Color.BLACK)
+//                        }
+//                        else{
+//                            this.textView.setBackgroundResource(R.drawable.style_date_selected)
+//                            this.textView.setTextColor(Color.BLACK)
+//                        }
+//                        onDaySelected(selectedDate!!)
+//                        isSelected = !isSelected
+//                    }
+//                    else{
+//                        isSelected = false
+//                        this.textView.setBackgroundResource(R.drawable.style_date_background)
+//                        this.textView.setTextColor(Color.WHITE)
+//                    }
+                    // my
+                    // weekly
+                    if (isDateInRange(selectedDate!!)){
+                        Log.d("selected date vs today", ">")
+                        this.textView.setBackgroundResource(R.drawable.style_date_today)
+                        this.textView.setTextColor(Color.BLACK)
                     }
                     else{
-                        isSelected = false
-                        this.textView.setBackgroundResource(R.drawable.style_date_background)
-                        this.textView.setTextColor(Color.WHITE)
+                        Log.d("selected date vs today", "<")
+                        this.textView.setBackgroundResource(R.drawable.style_date_selected)
+                        this.textView.setTextColor(Color.BLACK)
                     }
+                    onDaySelected(selectedDate!!)
+                    isSelected = !isSelected
                 }
             }
         }
-//        init {
-//            view.setOnClickListener {
-//                if (canClick) {
-//                    if (!isSelected) {
-//                        view.setBackgroundResource(R.drawable.onclick)
-//                        isSelected = true
-//                        val text = textView.text.toString()
-//                        val day = text.toInt()
-//                        selectedDate = pageMonth.atDay(day)
-//                        Log.d("selected", selectedDate.toString())
-//                        onDaySelected(selectedDate!!)
-//                    } else {
-//                        isSelected = false
-//                    }
-//                }
-//            }
-//        }
+
     }
 }
