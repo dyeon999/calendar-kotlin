@@ -223,6 +223,7 @@ class MainActivity : AppCompatActivity() {
 //                        this.textView.setBackgroundResource(R.drawable.style_date_background)
 //                        this.textView.setTextColor(Color.WHITE)
 //                    }
+                    // my
                     // weekly
                     if (isDateInRange(selectedDate!!)){
                         Log.d("selected date vs today", ">")
